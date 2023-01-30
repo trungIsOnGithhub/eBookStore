@@ -38,7 +38,7 @@
 <body>
    
 <?php
-   include 'header.php';
+   require 'header.php';
    $main_view->display_add_to_cart_message($main_models, $main_controller);
 ?>
 

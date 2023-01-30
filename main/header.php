@@ -1,27 +1,14 @@
-<?php
-if(isset($message)){
-   foreach($message as $message){
-      echo '
-      <div class="message">
-         <span>'.$message.'</span>
-         <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
-      </div>
-      ';
-   }
-}
-?>
-<header class="header">
+<?php require 'notification.php'; ?>
 
+<header class="header" class="message">
    <div class="header-1">
       <div class="flex">
          <div class="share">
             <a href="#" class="fab fa-facebook-f"></a>
             <a href="#" class="fab fa-twitter"></a>
             <a href="#" class="fab fa-instagram"></a>
-            <a href="#" class="fab fa-linkedin"></a>
          </div>
          <p><a href="logout.php"><i class="fa-solid fa-arrow-right-from-bracket"></i></a></p>
-
       </div>
    </div>
 
@@ -64,5 +51,4 @@ if(isset($message)){
          </div>
       </div>
    </div>
-
 </header>

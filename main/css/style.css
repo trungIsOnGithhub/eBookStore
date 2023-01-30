@@ -13,12 +13,6 @@
    --box-shadow:0 .5rem 1rem rgba(0,0,0,.1);
 }
 
-/**** style1.css ***/
-
-/* ============= */
-/*** style1.css ** */
-
-
 *{
    font-family: 'Rubik', sans-serif;
    margin:0; padding:0;
@@ -62,35 +56,6 @@ section{
    background-color: var(--white);
    color:var(--red);
    font-size: 2rem;
-}
-
-.message{
-   position: sticky;
-   top:0;
-   margin:0 auto;
-   max-width: 1200px;
-   background-color: var(--white);
-   padding:2rem;
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   z-index: 10000;
-   gap:1.5rem;
-}
-
-.message span{
-   font-size: 2rem;
-   color:var(--black);
-}
-
-.message i{
-   cursor: pointer;
-   color:var(--red);
-   font-size: 2.5rem;
-}
-
-.message i:hover{
-   transform: rotate(90deg);
 }
 
 .title{

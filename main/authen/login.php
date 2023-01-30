@@ -1,13 +1,13 @@
 <?php
 
 include 'config.php';
+require 'notification.php';
 session_start();
 
 if(isset($_POST['submit'])){
 
    $Email = mysqli_real_escape_string($conn, $_POST['Email']);
    $pass = mysqli_real_escape_string($conn, md5($_POST['Password']));
-
    $select_users = mysqli_query($conn, "SELECT * FROM `account` WHERE Email = '$Email' AND Password = '$pass'") or die('query failed');
 
    if(mysqli_num_rows($select_users) > 0){
@@ -38,7 +38,7 @@ if(isset($_POST['submit'])){
          header('location:normal_staff/staff_page.php');
          }
          else {
-            $message[]="Your account has been disabled by the Admin";
+            NotificationView::notify("Your account has been disabled by Administrator");
          }
       }
 
@@ -51,7 +51,7 @@ if(isset($_POST['submit'])){
          }
 
          else {
-            $message[]="Your account has been disabled by the Admin";
+            NotificationView::notify("Your account has been disabled by Administrator");
          }
       }
       
@@ -64,15 +64,13 @@ if(isset($_POST['submit'])){
          header('location:home.php');
          }
          else {
-            $message[]="Your account has been disabled by the Admin";
+            NotificationView::notify("Your account has been disabled by Administrator");
          }
 
       }
 
-   }else{
-      $message[] = 'incorrect email or password!';
    }
-
+   else { NotificationView::notify('incorrect email or password!'); }
 }
 
 ?>
@@ -84,65 +82,56 @@ if(isset($_POST['submit'])){
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>login</title>
-
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-   <!-- custom css file link  -->
-   <link rel="stylesheet" href="css/style.css">
-
+   <link rel="stylesheet" href="css/login.css">
 </head>
-<body style="height:100%;">
-
-<?php
-if(isset($message)){
-   foreach($message as $message){
-      echo '
-      <div class="message">
-         <span>'.$message.'</span>
-         <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
-      </div>
-      ';
-   }
-}
-?>
+<body>
    
-<div class="form-container">
+<!-- <div class="form-container">
 
    <form action="" method="post">
       <h3>login now</h3>
       <input type="email" name="Email" placeholder="enter your email" required class="box">
-      <input id="password" type="password" name="Password" placeholder="enter your password" required class="box">
-      <!--Trung's code-->
-      <div id="show-pass"><input type="checkbox" onclick="toggleVisibility()"><p>Show Password</p></div>
-<style>
-   #show-pass {
-      display: flex;
-      justify-content: left;
-   }
-   #show-pass > p{
-      font-size: small;
-      padding:0;
-      margin:0;
-      padding-left: 6px;
-   }
-   #show-pass > input {
-      padding-left: 6px;
-   }
-</style>
-<script>
-   function toggleVisibility() {
-     var x = document.getElementById("password");
-     if (x.type === "password") x.type = "text";
-     else x.type = "password";
-   }
-</script>
-      <!--Trung's code-->
+      <input type="password" name="Password" placeholder="enter your password" required class="box">
       <input type="submit" name="submit" value="login now" class="btn">
       <p>don't have an account? <a href="register.php">register now</a></p>
    </form>
 
+</div> -->
+<div class="container" id="container">
+  <div class="form-container sign-in-container">
+    <form action="" method="post">
+      <h1>Sign in</h1>
+     
+      <input type="email" name="Email" placeholder="Email" required />
+      <input id="passw" type="password" name="Password" placeholder="Password" required/>
+      <!--show/hide password-->
+      <i class="fas fa-eye" id="toggle-passw"></i>
+      <style>#toggle-passw{position:relative; left:40%;bottom:7%; cursor:pointer; z-index:69;}</style>
+      <script>
+      document.getElementById('toggle-passw').addEventListener('click', function(eve) {
+         const password_field = document.getElementById('passw');
+         const type = password_field.getAttribute('type') === 'password' ? 'text' : 'password';
+         password_field.setAttribute('type', type);
+         this.classList.toggle('fa-eye-slash');
+      });
+      </script>
+      <!--show/hide password-->
+      <input type="submit" name="submit" value="login now" class="btn">
+      <button class="ghost" id="signUp1"> <a href="registerr.php">Sign Up</a></button>
+    </form>
+  </div>
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-right">
+        <h1>Hello, Friend!</h1>
+        <p>You will need an account to start shopping with us!</p>
+        <p>You don't have an account?, Sign Up below!</p>
+        <button class="ghost" id="signUp"> <a href="registerr.php">Sign Up</a></button>
+      </div>
+    </div>
+  </div>
 </div>
-
 </body>
 </html>

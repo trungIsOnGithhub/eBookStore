@@ -51,7 +51,7 @@
             $books_stock = $books_to_add_info->stock;
             $books_name = $books_to_add_info->name;
             if( $books_quantity < 0 || $books_quantity > $books_stock ) {
-               $message[] = 'Add to cart failed, only have '.$books_stock.' books for "'.$books_name.'" in stock.';
+               NotificationView::notify('Add to cart failed, only have '.$books_stock.' books for "'.$books_name.'" in stock.');
                return;
             }
          
@@ -59,7 +59,8 @@
             if( !$main_models->is_product_exist_in_cart($books_to_add_info) ) {
                $main_models->insert_into_cart($books_to_add_info);
             }
-            $message[] = 'already added to cart successfully!';
+
+            NotificationView::notify('already added to cart successfully!');
         }
 
         function display_current_sort_and_category($main_controller) {
