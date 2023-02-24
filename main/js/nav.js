@@ -1,1 +1,0 @@
-$("#news").attr("class", "sidebar-listItem active")
