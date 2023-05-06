@@ -1,4 +1,5 @@
 ## Online Books and Magazine Store
+#### an api is being developed in [this repository](https://github.com/trungIsOnGithhub/eBookStore-api)
 
 *:golf: Coursework project for "Web Programming" course **|** Semester 2022-1 **|** HCMUT*
 
