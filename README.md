@@ -1,6 +1,6 @@
 ## Online Books and Magazine Store
 
-> Developed and Testing using [XAMPP for Windows version 7.4.10](https://www.apachefriends.org/blog/new_xampp_20221001.html)
+> Developing and Testing with [XAMPP for Windows version 7.4.30](https://www.apachefriends.org/blog/new_xampp_20221001.html)
 
 #### Update - Built myself a custom MVC framework(refrencing this book) for further learning in this project and probably to rewrite the codebase with my custom framework.
 ![Pro PHP MVC by Chris Pitt](bookcover.jpg)
