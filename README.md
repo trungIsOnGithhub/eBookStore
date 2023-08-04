@@ -1,5 +1,10 @@
 ## Online Books and Magazine Store
-#### an api is being developed in [this repository](https://github.com/trungIsOnGithhub/eBookStore-api)
+
+> Developing and Testing with [XAMPP for Windows version 7.4.30](https://www.apachefriends.org/blog/new_xampp_20221001.html)
+
+#### Update - Built myself a custom MVC framework(refrencing this book) for further learning in this project and probably to rewrite the codebase with my custom framework.
+![Pro PHP MVC by Chris Pitt](bookcover.jpg)
+#### Update APIs of this project being developed in [this repository](https://github.com/trungIsOnGithhub/eBookStore-api)
 
 *:golf: Coursework project for "Web Programming" course **|** Semester 2022-1 **|** HCMUT*
 
