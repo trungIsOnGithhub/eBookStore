@@ -5,30 +5,6 @@ namespace LearnPHPMVC\Database\Connector {
     use LearnPHPMVC\Database\Exception as Exception;
     
     class Mysql extends Database\Connector {
-        protected $_service;
-        /**
-        * @readwrite
-        */
-        protected $_host;
-        /**
-        * @readwrite
-        */
-        protected $_username;
-        /**
-        * @readwrite
-        */
-        protected $_password;
-        /**
-        * @readwrite
-        */
-        protected $_schema;
-        /**
-        * @readwrite
-        */
-        protected $_port = "3306";
-        /**
-        * @readwrite
-        */
         protected $_charset = "utf8";
         /**
         * @readwrite
@@ -40,8 +16,9 @@ namespace LearnPHPMVC\Database\Connector {
         protected $_isConnected = false;
         
         protected function _isValidService() {
-            $isEmpty = empty($this->_service);
-            $isInstance = $this->_service instanceof \MySQLi;
+            $isConfigured = $this->_isConfig();
+            $isEmpty = empty($this->_connection);
+            $isInstance = $this->_connection instanceof \MySQLi;
             
             if($this->isConnected && $isInstance && !$isEmpty) {
                 return true;
@@ -52,7 +29,7 @@ namespace LearnPHPMVC\Database\Connector {
         
         public function connect() {
             if(!$this->_isValidService()) {
-                $this->_service = new \MySQLi(
+                $this->_connection = new \MySQLi(
                     $this->_host,
                     $this->_username,
                     $this->_password,
@@ -60,8 +37,12 @@ namespace LearnPHPMVC\Database\Connector {
                     $this->_port
                 );
                 
-                if($this->_service->connect_error) {
-                    throw new Exception\Service("Unable to connect to service");
+                if( $this->_connection->connect_errno ) {
+                    throw new Exception\Service("Unable to connect to database service.");
+                }
+
+                if( !$this->_connection->set_charset($this->_charset) ) {
+                    throw new Exception\Service("Unable to set desired char_set for database service.");
                 }
                 
                 $this->isConnected = true;
@@ -72,8 +53,9 @@ namespace LearnPHPMVC\Database\Connector {
         
         public function disconnect() {
             if($this->_isValidService()) {
+                $this->_connection->close();
+
                 $this->isConnected = false;
-                $this->_service->close();
             }
             
             return $this;
@@ -90,7 +72,7 @@ namespace LearnPHPMVC\Database\Connector {
                 throw new Exception\Service("Not connected to a valid service");
             }
             
-            return $this->_service->query($sql);
+            return $this->_connection->query($sql);
         }
         
         public function escape($value) {
@@ -98,7 +80,7 @@ namespace LearnPHPMVC\Database\Connector {
                 throw new Exception\Service("Not connected to a valid service");
             }
             
-            return $this->_service->real_escape_string($value);
+            return $this->_connection->real_escape_string($value);
         }
         
         public function getLastInsertId() {
@@ -106,7 +88,7 @@ namespace LearnPHPMVC\Database\Connector {
                 throw new Exception\Service("Not connected to a valid service");
             }
             
-            return $this->_service->insert_id;
+            return $this->_connection->insert_id;
         }
         
         public function getAffectedRows() {
@@ -114,7 +96,7 @@ namespace LearnPHPMVC\Database\Connector {
                 throw new Exception\Service("Not connected to a valid service");
             }
             
-            return $this->_service->affected_rows;
+            return $this->_connection->affected_rows;
         }
         
         public function getLastError() {
@@ -122,7 +104,7 @@ namespace LearnPHPMVC\Database\Connector {
                 throw new Exception\Service("Not connected to a valid service");
             }
             
-            return $this->_service->error;
+            return $this->_connection->error;
         }
         
         public function sync($model) {
@@ -198,13 +180,13 @@ namespace LearnPHPMVC\Database\Connector {
             $result = $this->execute("DROP TABLE ifEXISTS {$table};");
             if($result === false) {
                 $error = $this->lastError;
-                throw new Exception\Sql("There was an error in the query: {$error}");
+                throw new Exception\SQL("There was an error in the query: {$error}");
             }
             
             $result = $this->execute($sql);
             if($result === false) {
                 $error = $this->lastError;
-                throw new Exception\Sql("There was an error in the query: {$error}");
+                throw new Exception\SQL("There was an error in the query: {$error}");
             }
             
             return $this;

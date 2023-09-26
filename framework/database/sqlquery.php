@@ -197,7 +197,7 @@ namespace LearnPHPMVC\Database {
             $result = $this->_connector->execute($sql);
             
             if($result === false) {
-                throw new Exception\Sql();
+                throw new Exception\SQL();
             }
             
             if($isInsert) {
@@ -212,7 +212,7 @@ namespace LearnPHPMVC\Database {
             $result = $this->_connector->execute($sql);
             
             if($result === false) {
-                throw new Exception\Sql();
+                throw new Exception\SQL();
             }
             
             return $this->_connector->affectedRows;

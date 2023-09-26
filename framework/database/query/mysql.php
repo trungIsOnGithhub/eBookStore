@@ -11,7 +11,7 @@ namespace LearnPHPMVC\Database\SQLQuery {
             
             if($result === false) {
                 $error = $this->connector->lastError;
-                throw new Exception\Sql("There was an error with your SQL query: {$error}");
+                throw new Exception\SQL("There was an error with your SQL query: {$error}");
             }
             
             $rows = array();
