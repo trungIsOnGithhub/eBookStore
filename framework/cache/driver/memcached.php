@@ -5,26 +5,23 @@ namespace LearnPHPMVC\Cache\Driver {
     use LearnPHPMVC\Cache\Exception as Exception;
     
     class Memcached extends Cache\Driver {
-        protected $_service;
-        
+        protected $_connection;
         /**
         * @readwrite
         */
         protected $_host = "127.0.0.1";
-        
         /**
         * @readwrite
         */
         protected $_port = "11211";
-        
         /**
         * @readwrite
         */
         protected $_isConnected = false;
         
         protected function _isValidService() {
-            $isEmpty = empty($this->_service);
-            $isInstance = $this->_service instanceof \Memcache;
+            $isEmpty = empty($this->_connection);
+            $isInstance = $this->_connection instanceof \Memcache;
             
             if($this->isConnected && $isInstance && !$isEmpty) {
                 return true;
@@ -35,8 +32,8 @@ namespace LearnPHPMVC\Cache\Driver {
         
         public function connect() {
             try {
-                $this->_service = new \Memcache();
-                $this->_service->connect(
+                $this->_connection = new \Memcache();
+                $this->_connection->connect(
                     $this->host,
                     $this->port
                 );
@@ -51,7 +48,7 @@ namespace LearnPHPMVC\Cache\Driver {
         
         public function disconnect() {
             if($this->_isValidService()) {
-                $this->_service->close();
+                $this->_connection->close();
                 $this->isConnected = false;
             }
             
@@ -63,7 +60,7 @@ namespace LearnPHPMVC\Cache\Driver {
                 throw new Exception\Service("Not connected to a valid service");
             }
         
-            $value = $this->_service->get($key, MEMCACHE_COMPRESSED);
+            $value = $this->_connection->get($key, MEMCACHE_COMPRESSED);
             
             if($value) {
                 return $value;
@@ -77,7 +74,7 @@ namespace LearnPHPMVC\Cache\Driver {
                 throw new Exception\Service("Not connected to a valid service");
             }
         
-            $this->_service->set($key, $value, MEMCACHE_COMPRESSED, $duration);
+            $this->_connection->set($key, $value, MEMCACHE_COMPRESSED, $duration);
             return $this;
         }
         
@@ -86,7 +83,7 @@ namespace LearnPHPMVC\Cache\Driver {
                 throw new Exception\Service("Not connected to a valid service");
             }
             
-            $this->_service->delete($key);
+            $this->_connection->delete($key);
             return $this;
         }
     }

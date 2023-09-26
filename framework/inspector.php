@@ -53,19 +53,14 @@ namespace LearnPHPMVC {
             if($matches != null) {
                 foreach ($matches as $match) {
                     $parts = ArrayMethods::clean(
-                       ArrayMethods::trim(
-                            StringMethods::split($match, "[\s]", 2)
-                        )
+                        ArrayMethods::trim( StringMethods::split($match, "[\s]", 2) )
                     );
                     
                     $meta[$parts[0]] = true;
                     
-                    if(sizeof($parts) > 1)
-                    {
+                    if(sizeof($parts) > 1) {
                         $meta[$parts[0]] = ArrayMethods::clean(
-                            ArrayMethods::trim(
-                                StringMethods::split($parts[1], ",")
-                            )
+                            ArrayMethods::trim( StringMethods::split($parts[1], ",") )
                         );
                     }
                 }
